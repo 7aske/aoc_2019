@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <limits.h>
-#include <assert.h>
 
 enum opcode {
 	HLT = 99,
@@ -21,7 +19,6 @@ void run(uint* bp, uint** gpc) {
 	uint* pc = *gpc;
 	enum opcode opcode = *pc;
 	uint reg1, reg2, dest;
-	// printf("%d %d %d %d\n", opcode, *(pc + 1), *(pc + 2), *(pc + 3));
 	switch (opcode) {
 		case HLT:
 			running = 0;
