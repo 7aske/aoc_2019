@@ -81,11 +81,11 @@ gnode_t* gnode_new(char const* name, gnode_t* parent) {
 	return out;
 }
 // test case (test.txt)
-//		   G - H       J - K - L
+//		   G - H       J - K - L - YOU
 //		  /           /
 // COM - B - C - D - E - F
 // 				  \
-//                 I
+//                 I - sAN
 
 gnode_t* find_in_childlist(char const* name, list_t* list) {
 	for (int i = 0; i < list_size(list); ++i) {
@@ -182,5 +182,21 @@ int main(int argc, char** argv) {
 
 	}
 	printf("Part 1: %d\n", total);
+	list_t* path_to_san = list_new(sizeof(gnode_t*));
+	gnode_t* curr = SAN;
+	while (curr != COM) {
+		list_add(path_to_san, &curr);
+		curr = curr->parent;
+	}
 
+	list_add(path_to_san, &COM);
+	curr = YOU;
+	int count = 0;
+	while (list_exists(path_to_san, curr->name) == -1) {
+		count++;
+		list_add(path_to_san, &curr);
+		curr = curr->parent;
+	}
+	count += list_exists(path_to_san, curr->name);
+	printf("Part 2: %d\n", count);
 }
