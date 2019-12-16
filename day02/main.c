@@ -47,7 +47,7 @@ void run(uint* bp, uint** gpc) {
 }
 
 struct program* load_program() {
-	FILE* fptr = fopen("day02-2/input.txt", "r");
+	FILE* fptr = fopen("day02/input.txt", "r");
 	if (fptr == NULL) {
 		fprintf(stderr, "Failed to open file.\n");
 		return NULL;
@@ -95,6 +95,23 @@ int main() {
 	uint* active = NULL;
 	uint target = 19690720;
 
+	active = calloc(prog->size, sizeof(uint));
+	memcpy(active, prog->mem, prog->size * sizeof(uint));
+
+	pc = active;
+	bp = active;
+
+	active[1] = 12;
+	active[2] = 2;
+
+	while (running) {
+		run(bp, &pc);
+	}
+	running = 1;
+	printf("Part 1: %d\n", active[0]);
+	free(active);
+	active = NULL;
+
 	uint noun;
 	uint verb;
 	for (noun = 0; noun <= 99 && running; ++noun) {
@@ -113,8 +130,8 @@ int main() {
 				run(pc, &bp);
 			}
 
-			if (active[0] == target){
-				printf("%u %u %d\n", active[0], noun, verb);
+			if (active[0] == target) {
+				printf("Part 2: %u %u %d\n", active[0], noun, verb);
 			} else {
 				running = 1;
 			}
